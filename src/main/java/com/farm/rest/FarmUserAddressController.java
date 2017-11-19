@@ -26,6 +26,13 @@ public class FarmUserAddressController {
 		return new ResponseEntity<FarmBaseResponse<UserAddressDto>>(new FarmBaseResponse<>(user), HttpStatus.OK);
 	}
 	
+	@RequestMapping(value = "/user/{userId}/address", method = RequestMethod.POST)
+	public ResponseEntity<FarmBaseResponse<UserAddressDto>> getAddress(@PathVariable("userId") String userId, @RequestBody UserAddressDto addressDto) {
+		
+		UserAddressDto user = service.addUserAddress(userId,addressDto);
+		return new ResponseEntity<FarmBaseResponse<UserAddressDto>>(new FarmBaseResponse<>(user), HttpStatus.OK);
+	}
+	
 	@RequestMapping(value = "/user/{userId}/address", method = RequestMethod.PUT)
 	public ResponseEntity<FarmBaseResponse<UserAddressDto>> updateAddress(@PathVariable("userId") String userId,@RequestBody UserAddressDto addressDto) {
 		

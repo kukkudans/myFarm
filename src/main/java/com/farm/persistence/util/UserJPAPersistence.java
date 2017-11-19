@@ -24,22 +24,21 @@ public class UserJPAPersistence {
 
 	@Autowired
 	private PhoneRepository phoneRepository;
-	
+
 	@Autowired
 	private AddressRepository addressRepository;
 
 	public void addUser(UserEntity userEntity) {
-		 userRepo.save(userEntity);
+		userRepo.save(userEntity);
 		phoneRepository.save(userEntity.getPhoneDetails());
 	}
 
-	
 	public UserEntity updateUser(UserEntity userEntity) {
 		return userRepo.save(userEntity);
 	}
-	
+
 	public void updatePhoneDetails(List<PhoneDetailsEntity> phones) {
-		
+
 		phoneRepository.save(phones);
 	}
 
@@ -52,7 +51,14 @@ public class UserJPAPersistence {
 	}
 
 	public void deleteUser(UserEntity userEntity) {
+		deletePhones(userEntity);
+		deleteAddress(userEntity.getUserId());
 		userRepo.delete(userEntity);
+	}
+
+	public void deleteAddress(String userId) {
+		AddressEntity addressEntity = findAddressByUserId(userId);
+		addressRepository.delete(addressEntity);
 	}
 
 	public List<UserEntity> findAll() {
@@ -62,13 +68,14 @@ public class UserJPAPersistence {
 	public UserEntity authenticate(String userId, String password) {
 		return credentialRepository.authenticate(userId, password);
 	}
+
 	public AddressEntity findAddressByUserId(String userId) {
 		return addressRepository.findByUserId(userId);
 	}
 
 	public void deletePhones(UserEntity userEntity) {
 		userEntity.getPhoneDetails().forEach(phoneRepository::delete);
-		
+
 	}
 
 	public void saveAddress(AddressEntity addressEntity) {

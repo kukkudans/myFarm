@@ -84,17 +84,34 @@ public class UserSevice {
 
 		return addressTransformer.fromEntity(addressEntity);
 	}
-	
+
 	public UserAddressDto updateUserAddress(String userId, UserAddressDto addressDto) {
 		AddressEntity addressEntity = userJPAPersistence.findAddressByUserId(userId);
 		if (null == addressEntity) {
 			throw new NotFoundException("user not found");
 		}
-		
+
 		AddressEntity newAddress = addressTransformer.toEntity(addressDto);
-		BeanUtils.copyProperties(newAddress, addressEntity, "id","user");
+		BeanUtils.copyProperties(newAddress, addressEntity, "id", "user");
 		userJPAPersistence.saveAddress(addressEntity);
-		
+
 		return addressTransformer.fromEntity(addressEntity);
+	}
+
+	public boolean isUserPresent(String userId) {
+		UserEntity userEntity = userJPAPersistence.findByUserId(userId);
+
+		if (null == userEntity) {
+			return false;
+		}
+		return true;
+	}
+
+	public UserAddressDto addUserAddress(String userId, UserAddressDto addressDto) {
+		AddressEntity addressEntity = addressTransformer.toEntity(addressDto);
+		addressEntity.setUser(userId);
+		userJPAPersistence.saveAddress(addressEntity);
+
+		return addressDto;
 	}
 }

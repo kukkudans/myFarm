@@ -45,6 +45,13 @@ public class FarmUserController {
 		}
 	}
 
+	@RequestMapping(value = "/user/{userId}/valid", method = RequestMethod.GET)
+	public ResponseEntity<FarmBaseResponse<Boolean>> isUserPreset(@PathVariable("userId") String userId) {
+
+		boolean isPresent = service.isUserPresent(userId);
+		return new ResponseEntity<FarmBaseResponse<Boolean>>(new FarmBaseResponse<>(!isPresent), HttpStatus.OK);
+	}
+
 	@RequestMapping(value = "/user", method = RequestMethod.PUT)
 	public ResponseEntity<FarmBaseResponse<UserDto>> updateUser(@RequestBody UserDto user) {
 
