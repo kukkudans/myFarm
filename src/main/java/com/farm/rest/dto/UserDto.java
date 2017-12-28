@@ -7,6 +7,8 @@ public class UserDto {
 	private String lastName;
 	private String userId;
 	private String email;
+	private String dob;
+	private String createdDate;
 	private List<String> mobiles;
 
 	public UserDto() {
@@ -28,7 +30,7 @@ public class UserDto {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	
+
 	public String getUserId() {
 		return userId;
 	}
@@ -53,5 +55,20 @@ public class UserDto {
 		this.mobiles = mobiles;
 	}
 
+	public String getDob() {
+		return dob;
+	}
+
+	public void setDob(String dob) {
+		this.dob = dob;
+	}
+
+	public String getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(String createdDate) {
+		this.createdDate = createdDate;
+	}
 	
 }

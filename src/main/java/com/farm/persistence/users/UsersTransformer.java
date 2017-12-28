@@ -1,8 +1,11 @@
 package com.farm.persistence.users;
 
+import java.sql.Date;
+import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,6 +23,8 @@ public class UsersTransformer {
 	public UserDto fromEntity(UserEntity user) {
 		UserDto userDto = new UserDto();
 		BeanUtils.copyProperties(user, userDto);
+		userDto.setDob(user.getDob().toString());
+		userDto.setCreatedDate(user.getCreatedDate().toString());
 		List<String> phoneNumberList = phoneDetailTransformer.fromEntity(user.getPhoneDetails());
 		userDto.setMobiles(phoneNumberList);
 		return userDto;
@@ -28,8 +33,12 @@ public class UsersTransformer {
 	public UserEntity toEntity(UserDto userDto) {
 		UserEntity user = new UserEntity();
 		BeanUtils.copyProperties(userDto, user);
+		user.setDob(Date.valueOf(userDto.getDob()));
+		Date createdDate = StringUtils.isEmpty(userDto.getCreatedDate())
+				? new Date(Calendar.getInstance().getTimeInMillis()) : Date.valueOf(userDto.getCreatedDate());
+		user.setCreatedDate(createdDate);
 		List<PhoneDetailsEntity> phoneDetails = phoneDetailTransformer.toEntity(userDto.getMobiles(), user);
-		
+
 		user.setPhoneDetails(phoneDetails);
 		return user;
 	}

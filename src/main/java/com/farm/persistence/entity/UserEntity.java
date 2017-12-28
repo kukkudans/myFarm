@@ -1,5 +1,6 @@
 package com.farm.persistence.entity;
 
+import java.sql.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -14,7 +15,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "users")
+@Table(name = "user")
 public class UserEntity {
 
 	@Id
@@ -35,6 +36,12 @@ public class UserEntity {
 
 	@Column(name = "email")
 	private String email;
+	
+	@Column(name = "user_dob")
+	private Date dob;
+	
+	@Column(name = "created_date")
+	private Date createdDate;
 
 	@OneToMany(mappedBy = "user",fetch=FetchType.EAGER)
 	private List<PhoneDetailsEntity> phoneDetails;
@@ -93,6 +100,22 @@ public class UserEntity {
 
 	public void setPhoneDetails(List<PhoneDetailsEntity> phoneDetails) {
 		this.phoneDetails = phoneDetails;
+	}
+
+	public Date getDob() {
+		return dob;
+	}
+
+	public void setDob(Date dob) {
+		this.dob = dob;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
 	}
 
 //	public AddressEntity getAddress() {
